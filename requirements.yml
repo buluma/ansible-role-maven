@@ -5,6 +5,5 @@ roles:
   - name: buluma.core_dependencies
   - name: buluma.epel
   - name: buluma.java
-  - name: buluma.python_pip
 collections:
   - name: ansible.posix

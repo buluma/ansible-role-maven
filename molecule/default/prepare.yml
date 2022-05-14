@@ -11,6 +11,5 @@
     - role: buluma.bootstrap
     - role: buluma.core_dependencies
     - role: buluma.epel
-    # - role: buluma.python_pip
     - role: buluma.buildtools
     - role: buluma.java
