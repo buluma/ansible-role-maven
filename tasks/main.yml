@@ -1,14 +1,19 @@
 ---
-- name: load version vars
-  with_first_found:
-    - '../vars/versions/{{ maven_version }}.yml'
-    - ../vars/versions/default.yml
-  include_vars: '{{ item }}'
 
-- name: assert version vars
-  ansible.builtin.assert:
-    that:
-      - "maven_redis_sha256sum not in (None, '')"
+- name: read vars from first file found, use 'vars/' relative subdir
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ maven_version }}.yml'
+        - default.yml
+      paths:
+        - 'vars/versions'
+
+- name: import assert.yml
+  ansible.builtin.import_tasks: assert.yml
+  run_once: yes
+  delegate_to: localhost
 
 - name: install which (yum, dnf, zypper)
   become: yes
@@ -43,16 +48,6 @@
     group: '0'
     mode: 'u=rwx,go=rx'
     dest: '{{ maven_install_dir }}'
-
-# - name: install unarchive module dependencies (dnf, zypper)
-#   become: yes
-#   ansible.builtin.package:
-#     name:
-#       - tar
-#       - unzip
-#       - gzip
-#     state: present
-#   when: ansible_pkg_mgr in ('dnf', 'zypper')
 
 - name: install Maven
   become: yes
