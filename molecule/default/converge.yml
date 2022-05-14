@@ -3,18 +3,14 @@
   hosts: all
 
   pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+
     - name: update apt cache
       ansible.builtin.apt:
         update_cache: yes
-      changed_when: no
-      when: ansible_os_family == 'Ubuntu'
-
-    - name: install jdk 8 (apt)
-      become: yes
-      ansible.builtin.apt:
-        name: openjdk-8-jdk
-        state: present
-      when: ansible_os_family == 'Ubuntu'
+      when: ansible_pkg_mgr == "apt"
 
   roles:
     - role: buluma.maven

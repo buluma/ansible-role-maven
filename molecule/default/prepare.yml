@@ -1,0 +1,16 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: no
+  become: yes
+  vars:
+    - java_type: jdk
+    - java_version: "8"
+
+  roles:
+    - role: buluma.bootstrap
+    - role: buluma.core_dependencies
+    - role: buluma.epel
+    # - role: buluma.python_pip
+    - role: buluma.buildtools
+    - role: buluma.java
