@@ -32,3 +32,5 @@ provisioner:
       callback_whitelist: profile_tasks
     ssh_connection:
       pipelining: true
+verifier:
+  name: testinfra
