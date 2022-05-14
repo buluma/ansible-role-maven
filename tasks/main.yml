@@ -44,15 +44,15 @@
     mode: 'u=rwx,go=rx'
     dest: '{{ maven_install_dir }}'
 
-- name: install unarchive module dependencies (dnf, zypper)
-  become: yes
-  ansible.builtin.package:
-    name:
-      - tar
-      - unzip
-      - gzip
-    state: present
-  when: ansible_pkg_mgr in ('dnf', 'zypper')
+# - name: install unarchive module dependencies (dnf, zypper)
+#   become: yes
+#   ansible.builtin.package:
+#     name:
+#       - tar
+#       - unzip
+#       - gzip
+#     state: present
+#   when: ansible_pkg_mgr in ('dnf', 'zypper')
 
 - name: install Maven
   become: yes
