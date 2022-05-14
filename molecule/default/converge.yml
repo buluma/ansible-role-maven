@@ -12,13 +12,6 @@
         update_cache: yes
       when: ansible_pkg_mgr == "apt"
 
-    # - name: install jdk 8 (apt)
-    #   become: yes
-    #   ansible.builtin.apt:
-    #     name: openjdk-8-jdk
-    #     state: present
-    #   when: ansible_os_family == 'Ubuntu'
-
   roles:
     - role: buluma.maven
       maven_version: '3.8.5'
