@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: no
   become: yes
+  vars:
+    - java_type: jdk
+    - java_version: "8"
 
   roles:
     - role: buluma.bootstrap
