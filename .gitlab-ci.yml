@@ -1,5 +1,5 @@
 ---
-image: "buluma/github-action-molecule:4.0.7"
+image: "buluma/github-action-molecule:4.0.9"
 
 services:
   - docker:dind
@@ -35,7 +35,7 @@ molecule:
       - image: "debian-systemd"
         tag: "latest"
       - image: "debian-systemd"
-        tag: "bookworm"
+        tag: "buster"
 
 testing:
   stage: test
@@ -66,7 +66,7 @@ testing:
       - image: "debian-systemd"
         tag: "latest"
       - image: "debian-systemd"
-        tag: "bookworm"
+        tag: "buster"
 
 galaxy:
   stage: deploy
@@ -101,7 +101,7 @@ role_testing:
       - image: "debian-systemd"
         tag: "latest"
       - image: "debian-systemd"
-        tag: "bookworm"
+        tag: "buster"
 
 release_job:
   stage: .post
