@@ -1,10 +1,10 @@
-# [Ansible role maven](#maven)
+# Ansible role [maven](https://galaxy.ansible.com/ui/standalone/roles/buluma/maven/documentation)
 
 Install and configure Apache Maven on your systems.
 
-|GitHub|GitLab|Downloads|Version|Issues|Pull Requests|
-|------|------|-------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-maven/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-maven/actions/workflows/molecule.yml)|[![gitlab](https://gitlab.com/shadowwalker/ansible-role-maven/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-maven)|[![downloads](https://img.shields.io/ansible/role/d/4762)](https://galaxy.ansible.com/buluma/maven)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/pulls/)|
+|GitHub|Version|Issues|Pull Requests|Downloads|
+|------|-------|------|-------------|---------|
+|[![github](https://github.com/buluma/ansible-role-maven/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-maven/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-maven.svg)](https://github.com/buluma/ansible-role-maven/pulls/)|[![Ansible Role](https://img.shields.io/ansible/role/d/buluma/maven)](https://galaxy.ansible.com/ui/standalone/roles/buluma/maven/documentation)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -120,12 +120,12 @@ maven_fact_group_name: maven
 
 The following roles are used to prepare a system. You can prepare your system in another way.
 
-| Requirement | GitHub | GitLab |
+| Requirement | GitHub | Version |
 |-------------|--------|--------|
-|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Build Status GitHub](https://github.com/buluma/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-bootstrap/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-bootstrap)|
-|[buluma.buildtools](https://galaxy.ansible.com/buluma/buildtools)|[![Build Status GitHub](https://github.com/buluma/ansible-role-buildtools/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-buildtools/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-buildtools/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-buildtools)|
-|[buluma.core_dependencies](https://galaxy.ansible.com/buluma/core_dependencies)|[![Build Status GitHub](https://github.com/buluma/ansible-role-core_dependencies/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-core_dependencies/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-core_dependencies/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-core_dependencies)|
-|[buluma.java](https://galaxy.ansible.com/buluma/java)|[![Build Status GitHub](https://github.com/buluma/ansible-role-java/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-java/actions)|[![Build Status GitLab](https://gitlab.com/shadowwalker/ansible-role-java/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-java)|
+|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Ansible Molecule](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-bootstrap.svg)](https://github.com/shadowwalker/ansible-role-bootstrap)|
+|[buluma.buildtools](https://galaxy.ansible.com/buluma/buildtools)|[![Ansible Molecule](https://github.com/buluma/ansible-role-buildtools/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-buildtools/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-buildtools.svg)](https://github.com/shadowwalker/ansible-role-buildtools)|
+|[buluma.core_dependencies](https://galaxy.ansible.com/buluma/core_dependencies)|[![Ansible Molecule](https://github.com/buluma/ansible-role-core_dependencies/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-core_dependencies/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-core_dependencies.svg)](https://github.com/shadowwalker/ansible-role-core_dependencies)|
+|[buluma.java](https://galaxy.ansible.com/buluma/java)|[![Ansible Molecule](https://github.com/buluma/ansible-role-java/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-java/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-java.svg)](https://github.com/shadowwalker/ansible-role-java)|
 
 ## [Context](#context)
 
@@ -161,14 +161,9 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 
 ## [License](#license)
 
-[Apache-2.0](https://github.com/buluma/ansible-role-maven/blob/master/LICENSE).
+[Apache-2.0](https://github.com/buluma/ansible-role-maven/blob/master/LICENSE)
 
 ## [Author Information](#author-information)
 
-[Michael Buluma](https://buluma.github.io/)
+[Shadow Walker](https://buluma.github.io/)
 
-Please consider [sponsoring me](https://github.com/sponsors/buluma).
-
-### [Special Thanks](#special-thanks)
-
-Template inspired by [Robert de Bock](https://github.com/robertdebock)
