@@ -1,22 +1,18 @@
+# code: language=ansible
 ---
+- name: Load version vars
+  with_first_found:
+    - '../vars/versions/{{ maven_version }}.yml'
+    - ../vars/versions/default.yml
+  ansible.builtin.include_vars: '{{ item }}'
 
-- name: Read vars from first file found, use 'vars/' relative subdir
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
-      files:
-        - '{{ maven_version }}.yml'
-        - default.yml
-      paths:
-        - 'vars/versions'
-
-- name: Import assert.yml
-  ansible.builtin.import_tasks: assert.yml
-  run_once: yes
-  delegate_to: localhost
+- name: Assert version vars
+  ansible.builtin.assert:
+    that:
+      - "maven_redis_sha256sum not in (None, '')"
 
 - name: Install which (yum, dnf, zypper)
-  become: yes
+  become: true
   ansible.builtin.package:
     name: which
     state: present
@@ -33,14 +29,14 @@
     url: '{{ maven_mirror }}/{{ maven_redis_filename }}'
     dest: '{{ maven_download_dir }}/{{ maven_redis_filename }}'
     checksum: 'sha256:{{ maven_redis_sha256sum }}'
-    force: no
+    force: false
     use_proxy: '{{ maven_use_proxy }}'
     validate_certs: '{{ maven_validate_certs }}'
     timeout: '{{ maven_download_timeout }}'
     mode: 'u=rw,go=r'
 
 - name: Create Maven installation directory
-  become: yes
+  become: true
   ansible.builtin.file:
     state: directory
     owner: root
@@ -49,12 +45,22 @@
     mode: 'u=rwx,go=rx'
     dest: '{{ maven_install_dir }}'
 
+- name: Install unarchive module dependencies (dnf, zypper)
+  become: true
+  ansible.builtin.package:
+    name:
+      - tar
+      - unzip
+      - gzip
+    state: present
+  when: ansible_pkg_mgr in ('dnf', 'zypper')
+
 - name: Install Maven
-  become: yes
+  become: true
   ansible.builtin.unarchive:
     src: '{{ maven_download_dir }}/{{ maven_redis_filename }}'
     dest: '{{ maven_install_dir }}'
-    copy: no
+    copy: false
     owner: root
     # Use group ID as group name varies by OS (e.g. root/wheel)
     group: '0'
@@ -62,11 +68,11 @@
     creates: '{{ maven_install_dir }}/apache-maven-{{ maven_version }}'
 
 - name: Create symbolic links
-  include_tasks: create-symbolic-links.yml
+  ansible.builtin.include_tasks: create-symbolic-links.yml
   when: maven_is_default_installation
 
 - name: Create Ansible facts.d directory
-  become: yes
+  become: true
   ansible.builtin.file:
     state: directory
     dest: /etc/ansible/facts.d
@@ -76,7 +82,7 @@
     mode: 'u=rwx,go=rx'
 
 - name: Install Maven facts
-  become: yes
+  become: true
   ansible.builtin.template:
     src: facts.j2
     dest: '/etc/ansible/facts.d/{{ maven_fact_group_name }}.fact'
