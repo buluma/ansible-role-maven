@@ -1,22 +1,19 @@
 ---
 galaxy_info:
-  author: Michael Buluma
+  author: buluma
   role_name: maven
-  namespace: buluma
   description: Install and configure Apache Maven on your systems.
   company: ShadowNet
   license: Apache-2.0
-  min_ansible_version: 2.10
+  min_ansible_version: "2.12"
   platforms:
     - name: EL
       versions:
-        - 8
+        - "8"
     - name: Fedora
       versions:
-        - 34
-        - 35
-        - 36
-    - name: OpenSUSE
+        - all
+    - name: opensuse
       versions:
         - all
     - name: Ubuntu
