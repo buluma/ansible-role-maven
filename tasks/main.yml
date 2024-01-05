@@ -1,6 +1,6 @@
 ---
 
-- name: read vars from first file found, use 'vars/' relative subdir
+- name: Read vars from first file found, use 'vars/' relative subdir
   ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
@@ -10,25 +10,25 @@
       paths:
         - 'vars/versions'
 
-- name: import assert.yml
+- name: Import assert.yml
   ansible.builtin.import_tasks: assert.yml
   run_once: yes
   delegate_to: localhost
 
-- name: install which (yum, dnf, zypper)
+- name: Install which (yum, dnf, zypper)
   become: yes
   ansible.builtin.package:
     name: which
     state: present
   when: ansible_pkg_mgr in ('yum', 'dnf', 'zypper')
 
-- name: create download directory
+- name: Create download directory
   ansible.builtin.file:
     state: directory
     mode: 'u=rwx,go=rx'
     dest: '{{ maven_download_dir }}'
 
-- name: download Maven
+- name: Download Maven
   ansible.builtin.get_url:
     url: '{{ maven_mirror }}/{{ maven_redis_filename }}'
     dest: '{{ maven_download_dir }}/{{ maven_redis_filename }}'
@@ -39,7 +39,7 @@
     timeout: '{{ maven_download_timeout }}'
     mode: 'u=rw,go=r'
 
-- name: create Maven installation directory
+- name: Create Maven installation directory
   become: yes
   ansible.builtin.file:
     state: directory
@@ -49,7 +49,7 @@
     mode: 'u=rwx,go=rx'
     dest: '{{ maven_install_dir }}'
 
-- name: install Maven
+- name: Install Maven
   become: yes
   ansible.builtin.unarchive:
     src: '{{ maven_download_dir }}/{{ maven_redis_filename }}'
@@ -61,11 +61,11 @@
     mode: 'go-w'
     creates: '{{ maven_install_dir }}/apache-maven-{{ maven_version }}'
 
-- name: create symbolic links
+- name: Create symbolic links
   include_tasks: create-symbolic-links.yml
   when: maven_is_default_installation
 
-- name: create Ansible facts.d directory
+- name: Create Ansible facts.d directory
   become: yes
   ansible.builtin.file:
     state: directory
@@ -75,7 +75,7 @@
     group: '0'
     mode: 'u=rwx,go=rx'
 
-- name: install Maven facts
+- name: Install Maven facts
   become: yes
   ansible.builtin.template:
     src: facts.j2
@@ -85,6 +85,6 @@
     group: '0'
     mode: 'u=rw,go=r'
 
-- name: re-read facts
+- name: Re-read facts
   ansible.builtin.setup:
     filter: ansible_local

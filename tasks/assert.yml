@@ -1,5 +1,5 @@
 ---
-- name: assert version vars
+- name: assert | Test version vars
   ansible.builtin.assert:
     that:
       - "maven_redis_sha256sum not in (None, '')"

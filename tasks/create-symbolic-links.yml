@@ -1,5 +1,5 @@
 ---
-- name: install mvn link
+- name: create-symbolic-links | Install mvn link
   become: yes
   ansible.builtin.file:
     state: link
@@ -11,7 +11,7 @@
     group: '0'
     mode: 'u=rwx,go=rx'
 
-- name: install mvnDebug link
+- name: create-symbolic-links | Install mvnDebug link
   become: yes
   ansible.builtin.file:
     state: link
