@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-maven/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-maven/compare/0.1.3...HEAD)
+
+**Merged pull requests:**
+
+- Bump buluma/gh-action-auto-merge-dependabot-updates from 1.0.5 to 1.0.8 [\#11](https://github.com/buluma/ansible-role-maven/pull/11) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 3 to 4 [\#10](https://github.com/buluma/ansible-role-maven/pull/10) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [0.1.3](https://github.com/buluma/ansible-role-maven/tree/0.1.3) (2022-05-14)
 
 [Full Changelog](https://github.com/buluma/ansible-role-maven/compare/0.1.2...0.1.3)
