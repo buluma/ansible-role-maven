@@ -11,38 +11,41 @@ Install and configure Apache Maven on your systems.
 This example is taken from [`molecule/default/converge.yml`](https://github.com/buluma/ansible-role-maven/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
 
 ```yaml
+# code: language=ansible
 ---
 - name: Converge
   hosts: all
 
   pre_tasks:
-    - name: Update apt cache.
-      ansible.builtin.apt: update_cache=true cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-
-    - name: update apt cache
+    - name: Update apt cache
       ansible.builtin.apt:
-        update_cache: yes
-      when: ansible_pkg_mgr == "apt"
+        update_cache: true
+      changed_when: false
+
+    - name: Install jdk 8 (apt)
+      become: true
+      ansible.builtin.apt:
+        name: openjdk-8-jdk
+        state: present
 
   roles:
     - role: buluma.maven
-      maven_version: '3.8.5'
+      maven_version: '3.9.4'
       maven_install_dir: /opt/maven
 
     - role: buluma.maven
       maven_version: '3.3.9'
-      maven_is_default_installation: no
+      maven_is_default_installation: false
       maven_fact_group_name: maven_3_3
 
   post_tasks:
-    - name: verify default maven facts
+    - name: Verify default maven facts
       ansible.builtin.assert:
         that:
           - ansible_local.maven.general.version is defined
           - ansible_local.maven.general.home is defined
 
-    - name: verify maven 3.3 facts
+    - name: Verify maven 3.3 facts
       ansible.builtin.assert:
         that:
           - ansible_local.maven_3_3.general.version is defined
@@ -75,12 +78,14 @@ Also see a [full explanation and example](https://buluma.github.io/how-to-use-th
 The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-maven/blob/master/defaults/main.yml):
 
 ```yaml
+# code: language=ansible
+# https://github.com/gantsign/ansible-role-maven/blob/master/defaults/main.yml
 ---
 # Maven version number
-maven_version: '3.8.5'
+maven_version: '3.9.4'
 
 # Mirror to download the Maven redistributable package from
-maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version|regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
+maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
 
 # Base installation directory the Maven distribution
 maven_install_dir: /opt/maven
@@ -92,14 +97,14 @@ maven_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.a
 maven_download_timeout: 10
 
 # Whether to use the proxy when downloading Maven (if the proxy environment variable is present)
-maven_use_proxy: yes
+maven_use_proxy: true
 
 # Whether to validate HTTPS certificates when downloading Maven
-maven_validate_certs: yes
+maven_validate_certs: true
 
 # If this is the default installation, symbolic links to mvn and mvnDebug will
 # be created in /usr/local/bin
-maven_is_default_installation: yes
+maven_is_default_installation: true
 
 # Name of the group of Ansible facts relating this Maven installation.
 #
@@ -142,10 +147,10 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 |container|tags|
 |---------|----|
 |[EL](https://hub.docker.com/repository/docker/buluma/enterpriselinux/general)|8|
-|[Fedora](https://hub.docker.com/repository/docker/buluma/fedora/general)|all|
-|[opensuse](https://hub.docker.com/repository/docker/buluma/opensuse/general)|all|
-|[Ubuntu](https://hub.docker.com/repository/docker/buluma/ubuntu/general)|all|
-|[Debian](https://hub.docker.com/repository/docker/buluma/debian/general)|all|
+|[Fedora](https://hub.docker.com/repository/docker/buluma/fedora/general)|34|
+|[opensuse](https://hub.docker.com/repository/docker/buluma/opensuse/general)|15.2|
+|[Ubuntu](https://hub.docker.com/repository/docker/buluma/ubuntu/general)|bionic, focal|
+|[Debian](https://hub.docker.com/repository/docker/buluma/debian/general)|buster, bullseye|
 
 The minimum version of Ansible required is 2.12, tests have been done to:
 
