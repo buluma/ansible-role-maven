@@ -15,22 +15,26 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 ---
 - name: Converge
   hosts: all
+  become: yes
+  gather_facts: yes
 
   pre_tasks:
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: true
       changed_when: false
+      when: ansible_pkg_mgr in ('apt')
 
     - name: Install jdk 8 (apt)
       become: true
       ansible.builtin.apt:
         name: openjdk-8-jdk
         state: present
+      when: ansible_pkg_mgr in ('apt')
 
   roles:
     - role: buluma.maven
-      maven_version: '3.9.4'
+      maven_version: '3.9.6'
       maven_install_dir: /opt/maven
 
     - role: buluma.maven
@@ -38,18 +42,18 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
       maven_is_default_installation: false
       maven_fact_group_name: maven_3_3
 
-  post_tasks:
-    - name: Verify default maven facts
-      ansible.builtin.assert:
-        that:
-          - ansible_local.maven.general.version is defined
-          - ansible_local.maven.general.home is defined
-
-    - name: Verify maven 3.3 facts
-      ansible.builtin.assert:
-        that:
-          - ansible_local.maven_3_3.general.version is defined
-          - ansible_local.maven_3_3.general.home is defined
+  # post_tasks:
+  #   - name: Verify default maven facts
+  #     ansible.builtin.assert:
+  #       that:
+  #         - ansible_local.maven.general.version is defined
+  #         - ansible_local.maven.general.home is defined
+  #
+  #   - name: Verify maven 3.3 facts
+  #     ansible.builtin.assert:
+  #       that:
+  #         - ansible_local.maven_3_3.general.version is defined
+  #         - ansible_local.maven_3_3.general.home is defined
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-maven/blob/master/molecule/default/prepare.yml):
@@ -69,6 +73,8 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
     - role: buluma.core_dependencies
     - role: buluma.buildtools
     - role: buluma.java
+      java_vendor: openjdk
+      java_version: "11"
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -82,7 +88,7 @@ The default values for the variables are set in [`defaults/main.yml`](https://gi
 # https://github.com/gantsign/ansible-role-maven/blob/master/defaults/main.yml
 ---
 # Maven version number
-maven_version: '3.9.4'
+maven_version: '3.9.6'
 
 # Mirror to download the Maven redistributable package from
 maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
@@ -146,11 +152,10 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 
 |container|tags|
 |---------|----|
-|[EL](https://hub.docker.com/repository/docker/buluma/enterpriselinux/general)|8|
-|[Fedora](https://hub.docker.com/repository/docker/buluma/fedora/general)|34|
-|[opensuse](https://hub.docker.com/repository/docker/buluma/opensuse/general)|15.2|
-|[Ubuntu](https://hub.docker.com/repository/docker/buluma/ubuntu/general)|bionic, focal|
-|[Debian](https://hub.docker.com/repository/docker/buluma/debian/general)|buster, bullseye|
+|[EL](https://hub.docker.com/repository/docker/buluma/enterpriselinux/general)|8, 9|
+|[Fedora](https://hub.docker.com/repository/docker/buluma/fedora/general)|39, 38|
+|[opensuse](https://hub.docker.com/repository/docker/buluma/opensuse/general)|all|
+|[Ubuntu](https://hub.docker.com/repository/docker/buluma/ubuntu/general)|bionic, focal, jammy|
 
 The minimum version of Ansible required is 2.12, tests have been done to:
 
