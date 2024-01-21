@@ -2,18 +2,22 @@
 ---
 - name: Converge
   hosts: all
+  become: yes
+  gather_facts: yes
 
   pre_tasks:
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: true
       changed_when: false
+      when: ansible_pkg_mgr in ('apt')
 
     - name: Install jdk 8 (apt)
       become: true
       ansible.builtin.apt:
         name: openjdk-8-jdk
         state: present
+      when: ansible_pkg_mgr in ('apt')
 
   roles:
     - role: ansible-role-maven

@@ -12,3 +12,5 @@
     - role: buluma.core_dependencies
     - role: buluma.buildtools
     - role: buluma.java
+      java_vendor: openjdk
+      java_version: "11"
