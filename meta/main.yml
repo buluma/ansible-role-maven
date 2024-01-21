@@ -12,10 +12,11 @@ galaxy_info:
         - '8'
     - name: Fedora
       versions:
-        - '34'
+        - '39'
+        - '38'
     - name: opensuse
       versions:
-        - '15.2'
+        - all
     - name: Ubuntu
       versions:
         - bionic
