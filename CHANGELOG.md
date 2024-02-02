@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/buluma/ansible-role-maven/tree/HEAD)
+## [0.2.0](https://github.com/buluma/ansible-role-maven/tree/0.2.0) (2024-01-21)
 
-[Full Changelog](https://github.com/buluma/ansible-role-maven/compare/0.1.3...HEAD)
+[Full Changelog](https://github.com/buluma/ansible-role-maven/compare/0.1.3...0.2.0)
 
 **Merged pull requests:**
 
