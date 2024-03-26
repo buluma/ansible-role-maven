@@ -50,22 +50,18 @@ jobs:
             tag: "8"
           - image: "enterpriselinux"
             tag: "latest"
-          - image: "fedora-systemd"
-            tag: "latest"
-          - image: "fedora-systemd"
-            tag: "38"
-          - image: "docker-opensuse-systemd"
-            tag: "latest"
-          - image: "docker-ubuntu-systemd"
+          - image: "docker-molecule-images"
+            tag: "fedora39"
+          - image: "docker-molecule-images"
+            tag: "fedora38"
+          - image: "docker-molecule-images"
+            tag: "opensuse"
+          - image: "docker-molecule-images"
             tag: "bionic"
-          - image: "docker-ubuntu-systemd"
+          - image: "docker-molecule-images"
             tag: "focal"
-          - image: "docker-ubuntu-systemd"
-            tag: "latest"
-          - image: "docker-ubuntu-systemd"
-            tag: "lunar"
-          - image: "docker-ubuntu-systemd"
-            tag: "noble"
+          - image: "docker-molecule-images"
+            tag: "jammy"
     steps:
       - name: Checkout Role
         uses: actions/checkout@v4
@@ -76,6 +72,8 @@ jobs:
         with:
           image: ${{ matrix.config.image }}
           tag: ${{ matrix.config.tag }}
+      - name: Running Role Test
+        run: ansible-galaxy role import --api-key ${{ secrets.galaxy_api_key }} buluma ${{ github.event.repository.name }}
 
   dependabot:
     needs:
