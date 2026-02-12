@@ -20,11 +20,11 @@
       when: ansible_pkg_mgr in ('apt')
 
   roles:
-    - role: ansible-role-maven
+    - role: buluma.maven
       maven_version: '3.9.6'
       maven_install_dir: /opt/maven
 
-    - role: ansible-role-maven
+    - role: buluma.maven
       maven_version: '3.3.9'
       maven_is_default_installation: false
       maven_fact_group_name: maven_3_3
