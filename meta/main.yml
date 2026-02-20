@@ -10,18 +10,18 @@ galaxy_info:
     - name: EL
       versions:
         - all
-  - name: Fedora
-    versions:
-    - all
-  - name: opensuse
-    versions:
-    - all
-  - name: Ubuntu
-    versions:
-    - all
+    - name: Fedora
+      versions:
+        - all
+    - name: opensuse
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags:
     - maven
-  - mvn
-  - java
-  - development
+    - mvn
+    - java
+    - development
 dependencies: []
