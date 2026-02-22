@@ -11,70 +11,49 @@ Install and configure Apache Maven on your systems.
 This example is taken from [`molecule/default/converge.yml`](https://github.com/buluma/ansible-role-maven/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
 
 ```yaml
-# code: language=ansible
----
-- name: Converge
-  hosts: all
-  become: true
+- become: true
   gather_facts: true
-
+  hosts: all
+  name: Converge
   pre_tasks:
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: true
-      changed_when: false
-      when: ansible_pkg_mgr in ('apt')
-
-    - name: Install jdk 8 (apt)
-      become: true
-      ansible.builtin.apt:
-        name: openjdk-8-jdk
-        state: present
-      when: ansible_pkg_mgr in ('apt')
-
+  - ansible.builtin.apt:
+      update_cache: true
+    changed_when: false
+    name: Update apt cache
+    when: ansible_pkg_mgr in ('apt')
+  - ansible.builtin.apt:
+      name: openjdk-8-jdk
+      state: present
+    become: true
+    name: Install jdk 8 (apt)
+    when: ansible_pkg_mgr in ('apt')
   roles:
-    - role: buluma.maven
-      maven_version: '3.9.6'
-      maven_install_dir: /opt/maven
-
-    - role: buluma.maven
-      maven_version: '3.3.9'
-      maven_is_default_installation: false
-      maven_fact_group_name: maven_3_3
-
-  # post_tasks:
-  #   - name: Verify default maven facts
-  #     ansible.builtin.assert:
-  #       that:
-  #         - ansible_local.maven.general.version is defined
-  #         - ansible_local.maven.general.home is defined
-  #
-  #   - name: Verify maven 3.3 facts
-  #     ansible.builtin.assert:
-  #       that:
-  #         - ansible_local.maven_3_3.general.version is defined
-  #         - ansible_local.maven_3_3.general.home is defined
+  - maven_install_dir: /opt/maven
+    maven_version: 3.9.6
+    role: buluma.maven
+  - maven_fact_group_name: maven_3_3
+    maven_is_default_installation: false
+    maven_version: 3.3.9
+    role: buluma.maven
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-maven/blob/master/molecule/default/prepare.yml):
 
 ```yaml
----
-- name: Prepare
-  hosts: all
+- become: true
   gather_facts: false
-  become: true
-  vars:
-    - java_type: jdk
-    - java_version: "8"
-
+  hosts: all
+  name: Prepare
   roles:
-    - role: buluma.bootstrap
-    - role: buluma.core_dependencies
-    - role: buluma.buildtools
-    - role: buluma.java
-      java_vendor: openjdk
-      java_version: "11"
+  - role: buluma.bootstrap
+  - role: buluma.core_dependencies
+  - role: buluma.buildtools
+  - java_vendor: openjdk
+    java_version: '11'
+    role: buluma.java
+  vars:
+  - java_type: jdk
+  - java_version: '8'
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -84,43 +63,17 @@ Also see a [full explanation and example](https://buluma.github.io/how-to-use-th
 The default values for the variables are set in [`defaults/main.yml`](https://github.com/buluma/ansible-role-maven/blob/master/defaults/main.yml):
 
 ```yaml
-# code: language=ansible
-# https://github.com/gantsign/ansible-role-maven/blob/master/defaults/main.yml
----
-# Maven version number
-maven_version: '3.9.6'
-
-# Mirror to download the Maven redistributable package from
-maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
-
-# Base installation directory the Maven distribution
-maven_install_dir: /opt/maven
-
-# Directory to store files downloaded for Maven installation
-maven_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
-
-# The number of seconds to wait before the Maven download times-out
+maven_download_dir: '{{ x_ansible_download_dir | default(ansible_env.HOME + ''/.ansible/tmp/downloads'')
+  }}'
 maven_download_timeout: 10
-
-# Whether to use the proxy when downloading Maven (if the proxy environment variable is present)
-maven_use_proxy: true
-
-# Whether to validate HTTPS certificates when downloading Maven
-maven_validate_certs: true
-
-# If this is the default installation, symbolic links to mvn and mvnDebug will
-# be created in /usr/local/bin
-maven_is_default_installation: true
-
-# Name of the group of Ansible facts relating this Maven installation.
-#
-# Override if you want use this role more than once to install multiple versions
-# of Maven.
-#
-# e.g. maven_fact_group_name: maven_3_3
-# would change the Maven home fact to:
-# ansible_local.maven_3_2.general.home
 maven_fact_group_name: maven
+maven_install_dir: /opt/maven
+maven_is_default_installation: true
+maven_mirror: http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\..*',
+  '') }}/{{ maven_version }}/binaries
+maven_use_proxy: true
+maven_validate_certs: true
+maven_version: 3.9.6
 ```
 
 ## [Requirements](#requirements)

@@ -1,27 +1,26 @@
----
+dependencies: []
 galaxy_info:
   author: buluma
-  role_name: maven
-  description: Install and configure Apache Maven on your systems.
   company: ShadowNet
+  description: Install and configure Apache Maven on your systems.
+  galaxy_tags:
+  - maven
+  - mvn
+  - java
+  - development
   license: Apache-2.0
   min_ansible_version: '2.12'
   platforms:
-    - name: EL
-      versions:
-        - all
-    - name: Fedora
-      versions:
-        - all
-    - name: opensuse
-      versions:
-        - all
-    - name: Ubuntu
-      versions:
-        - all
-  galaxy_tags:
-    - maven
-    - mvn
-    - java
-    - development
-dependencies: []
+  - name: EL
+    versions:
+    - all
+  - name: Fedora
+    versions:
+    - all
+  - name: opensuse
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  role_name: maven

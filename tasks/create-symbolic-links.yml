@@ -1,25 +1,20 @@
-# code: language=ansible
----
-- name: create-symbolic-links | Install mvn link
-  become: true
-  ansible.builtin.file:
-    state: link
+- ansible.builtin.file:
+    dest: /usr/local/bin/mvn
     force: true
+    group: '0'
+    mode: u=rwx,go=rx
+    owner: root
     src: '{{ maven_install_dir }}/apache-maven-{{ maven_version }}/bin/mvn'
-    dest: '/usr/local/bin/mvn'
-    owner: root
-    # Use group ID as group name varies by OS (e.g. root/wheel)
-    group: '0'
-    mode: 'u=rwx,go=rx'
-
-- name: create-symbolic-links | Install mvnDebug link
-  become: true
-  ansible.builtin.file:
     state: link
+  become: true
+  name: create-symbolic-links | Install mvn link
+- ansible.builtin.file:
+    dest: /usr/local/bin/mvnDebug
     force: true
-    src: '{{ maven_install_dir }}/apache-maven-{{ maven_version }}/bin/mvnDebug'
-    dest: '/usr/local/bin/mvnDebug'
-    owner: root
-    # Use group ID as group name varies by OS (e.g. root/wheel)
     group: '0'
-    mode: 'u=rwx,go=rx'
+    mode: u=rwx,go=rx
+    owner: root
+    src: '{{ maven_install_dir }}/apache-maven-{{ maven_version }}/bin/mvnDebug'
+    state: link
+  become: true
+  name: create-symbolic-links | Install mvnDebug link
