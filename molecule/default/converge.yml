@@ -1,25 +1,25 @@
 ---
-  - become: true
-    gather_facts: true
-    hosts: all
-    name: Converge
-    pre_tasks:
-      - ansible.builtin.apt:
-          update_cache: true
-        changed_when: false
-        name: Update apt cache
-        when: ansible_pkg_mgr in ('apt')
-      - ansible.builtin.apt:
-          name: openjdk-8-jdk
-          state: present
-        become: true
-        name: Install jdk 8 (apt)
-        when: ansible_pkg_mgr in ('apt')
-    roles:
-      - maven_install_dir: /opt/maven
-        maven_version: 3.9.6
-        role: buluma.maven
-      - maven_fact_group_name: maven_3_3
-        maven_is_default_installation: false
-        maven_version: 3.3.9
-        role: buluma.maven
+- become: true
+  gather_facts: true
+  hosts: all
+  name: Converge
+  pre_tasks:
+  - ansible.builtin.apt:
+      update_cache: true
+    changed_when: false
+    name: Update apt cache
+    when: ansible_pkg_mgr in ('apt')
+  - ansible.builtin.apt:
+      name: openjdk-8-jdk
+      state: present
+    become: true
+    name: Install jdk 8 (apt)
+    when: ansible_pkg_mgr in ('apt')
+  roles:
+  - maven_install_dir: /opt/maven
+    maven_version: 3.9.6
+    role: buluma.maven
+  - maven_fact_group_name: maven_3_3
+    maven_is_default_installation: false
+    maven_version: 3.3.9
+    role: buluma.maven

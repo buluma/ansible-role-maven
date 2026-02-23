@@ -1,15 +1,15 @@
 ---
-  - become: true
-    gather_facts: false
-    hosts: all
-    name: Prepare
-    roles:
-      - role: buluma.bootstrap
-      - role: buluma.core_dependencies
-      - role: buluma.buildtools
-      - java_vendor: openjdk
-        java_version: '11'
-        role: buluma.java
-    vars:
-      - java_type: jdk
-      - java_version: '8'
+- become: true
+  gather_facts: false
+  hosts: all
+  name: Prepare
+  roles:
+  - role: buluma.bootstrap
+  - role: buluma.core_dependencies
+  - role: buluma.buildtools
+  - java_vendor: openjdk
+    java_version: '11'
+    role: buluma.java
+  vars:
+  - java_type: jdk
+  - java_version: '8'

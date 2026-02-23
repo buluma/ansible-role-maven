@@ -12,50 +12,50 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 
 ```yaml
 ---
-  - become: true
-    gather_facts: true
-    hosts: all
-    name: Converge
-    pre_tasks:
-      - ansible.builtin.apt:
-          update_cache: true
-        changed_when: false
-        name: Update apt cache
-        when: ansible_pkg_mgr in ('apt')
-      - ansible.builtin.apt:
-          name: openjdk-8-jdk
-          state: present
-        become: true
-        name: Install jdk 8 (apt)
-        when: ansible_pkg_mgr in ('apt')
-    roles:
-      - maven_install_dir: /opt/maven
-        maven_version: 3.9.6
-        role: buluma.maven
-      - maven_fact_group_name: maven_3_3
-        maven_is_default_installation: false
-        maven_version: 3.3.9
-        role: buluma.maven
+- become: true
+  gather_facts: true
+  hosts: all
+  name: Converge
+  pre_tasks:
+  - ansible.builtin.apt:
+      update_cache: true
+    changed_when: false
+    name: Update apt cache
+    when: ansible_pkg_mgr in ('apt')
+  - ansible.builtin.apt:
+      name: openjdk-8-jdk
+      state: present
+    become: true
+    name: Install jdk 8 (apt)
+    when: ansible_pkg_mgr in ('apt')
+  roles:
+  - maven_install_dir: /opt/maven
+    maven_version: 3.9.6
+    role: buluma.maven
+  - maven_fact_group_name: maven_3_3
+    maven_is_default_installation: false
+    maven_version: 3.3.9
+    role: buluma.maven
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-maven/blob/master/molecule/default/prepare.yml):
 
 ```yaml
 ---
-  - become: true
-    gather_facts: false
-    hosts: all
-    name: Prepare
-    roles:
-      - role: buluma.bootstrap
-      - role: buluma.core_dependencies
-      - role: buluma.buildtools
-      - java_vendor: openjdk
-        java_version: '11'
-        role: buluma.java
-    vars:
-      - java_type: jdk
-      - java_version: '8'
+- become: true
+  gather_facts: false
+  hosts: all
+  name: Prepare
+  roles:
+  - role: buluma.bootstrap
+  - role: buluma.core_dependencies
+  - role: buluma.buildtools
+  - java_vendor: openjdk
+    java_version: '11'
+    role: buluma.java
+  vars:
+  - java_type: jdk
+  - java_version: '8'
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
