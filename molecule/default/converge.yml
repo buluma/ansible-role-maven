@@ -1,43 +1,24 @@
-# code: language=ansible
----
-- name: Converge
-  hosts: all
-  become: true
+- become: true
   gather_facts: true
-
+  hosts: all
+  name: Converge
   pre_tasks:
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: true
-      changed_when: false
-      when: ansible_pkg_mgr in ('apt')
-
-    - name: Install jdk 8 (apt)
-      become: true
-      ansible.builtin.apt:
-        name: openjdk-8-jdk
-        state: present
-      when: ansible_pkg_mgr in ('apt')
-
+  - ansible.builtin.apt:
+      update_cache: true
+    changed_when: false
+    name: Update apt cache
+    when: ansible_pkg_mgr in ('apt')
+  - ansible.builtin.apt:
+      name: openjdk-8-jdk
+      state: present
+    become: true
+    name: Install jdk 8 (apt)
+    when: ansible_pkg_mgr in ('apt')
   roles:
-    - role: ansible-role-maven
-      maven_version: '3.9.6'
-      maven_install_dir: /opt/maven
-
-    - role: ansible-role-maven
-      maven_version: '3.3.9'
-      maven_is_default_installation: false
-      maven_fact_group_name: maven_3_3
-
-  # post_tasks:
-  #   - name: Verify default maven facts
-  #     ansible.builtin.assert:
-  #       that:
-  #         - ansible_local.maven.general.version is defined
-  #         - ansible_local.maven.general.home is defined
-  #
-  #   - name: Verify maven 3.3 facts
-  #     ansible.builtin.assert:
-  #       that:
-  #         - ansible_local.maven_3_3.general.version is defined
-  #         - ansible_local.maven_3_3.general.home is defined
+  - maven_install_dir: /opt/maven
+    maven_version: 3.9.6
+    role: buluma.maven
+  - maven_fact_group_name: maven_3_3
+    maven_is_default_installation: false
+    maven_version: 3.3.9
+    role: buluma.maven
