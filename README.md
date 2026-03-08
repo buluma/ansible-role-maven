@@ -71,10 +71,10 @@ maven_download_timeout: 10
 maven_fact_group_name: maven
 maven_install_dir: /opt/maven
 maven_is_default_installation: true
-maven_mirror: http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\..*', '') }}/{{ maven_version }}/binaries
+maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
 maven_use_proxy: true
 maven_validate_certs: true
-maven_version: 3.9.6
+maven_version: "3.9.6"
 ```
 
 ## [Requirements](#requirements)
@@ -108,7 +108,6 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |---------|----|
 |[EL](https://hub.docker.com/r/robertdebock/enterpriselinux)|all|
 |[Fedora](https://hub.docker.com/r/robertdebock/fedora)|all|
-|[opensuse](https://hub.docker.com/r/robertdebock/opensuse)|all|
 |[Ubuntu](https://hub.docker.com/r/robertdebock/ubuntu)|all|
 
 The minimum version of Ansible required is 2.12, tests have been done on:
@@ -126,3 +125,4 @@ If you find issues, please register them on [GitHub](https://github.com/buluma/a
 ## [Author Information](#author-information)
 
 [buluma](https://buluma.github.io/)
+
