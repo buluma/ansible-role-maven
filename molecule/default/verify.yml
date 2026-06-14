@@ -1,0 +1,11 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check mvn version
+      ansible.builtin.command:
+        cmd: mvn --version
+      changed_when: false
