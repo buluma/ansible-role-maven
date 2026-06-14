@@ -1,5 +1,5 @@
 ---
-maven_download_dir: "{{ x_ansible_download_dir | default(ansible_facts.env.HOME + '/.ansible/tmp/downloads') }}"
+maven_download_dir: "{{ x_ansible_download_dir | default(ansible_facts['env'].HOME + '/.ansible/tmp/downloads') }}"
 maven_download_timeout: 10
 maven_fact_group_name: maven
 maven_install_dir: /opt/maven
