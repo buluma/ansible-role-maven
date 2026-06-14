@@ -13,7 +13,7 @@
     name: which
     state: present
   become: true
-  when: ansible_pkg_mgr in ('yum', 'dnf', 'zypper')
+  when: ansible_facts.pkg_mgr in ('yum', 'dnf', 'zypper')
 - name: Create download directory
   ansible.builtin.file:
     dest: "{{ maven_download_dir }}"
@@ -45,7 +45,7 @@
       - gzip
     state: present
   become: true
-  when: ansible_pkg_mgr in ('dnf', 'zypper')
+  when: ansible_facts.pkg_mgr in ('dnf', 'zypper')
 - name: Install Maven
   ansible.builtin.unarchive:
     copy: false
@@ -77,4 +77,4 @@
   become: true
 - name: Re-read facts
   ansible.builtin.setup:
-    filter: ansible_local
+    filter: ansible_facts.local
