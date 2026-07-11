@@ -13,21 +13,21 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 ```yaml
 ---
 - name: Converge
+  hosts: all
   become: true
   gather_facts: true
-  hosts: all
   pre_tasks:
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: true
       changed_when: false
-      when: ansible_pkg_mgr in ('apt')
+      when: ansible_facts['pkg_mgr'] in ('apt')
     - name: Install jdk 8 (apt)
       ansible.builtin.apt:
         name: openjdk-8-jdk
         state: present
       become: true
-      when: ansible_pkg_mgr in ('apt')
+      when: ansible_facts['pkg_mgr'] in ('apt')
   roles:
     - maven_install_dir: /opt/maven
       maven_version: 3.9.6
@@ -42,20 +42,22 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 
 ```yaml
 ---
-- become: true
-  gather_facts: false
+- name: Prepare
   hosts: all
-  name: Prepare
+  become: true
+  gather_facts: false
+
+  pre_tasks:
+    - name: Install sudo if missing
+      ansible.builtin.raw: "{{ ansible_pkg_mgr | default('dnf') }} install -y sudo}"
+      become: false
+      changed_when: false
+      failed_when: false
+
   roles:
     - role: buluma.bootstrap
     - role: buluma.core_dependencies
     - role: buluma.buildtools
-    - java_vendor: openjdk
-      java_version: "11"
-      role: buluma.java
-  vars:
-    - java_type: jdk
-    - java_version: "8"
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
@@ -66,7 +68,7 @@ The default values for the variables are set in [`defaults/main.yml`](https://gi
 
 ```yaml
 ---
-maven_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+maven_download_dir: "{{ x_ansible_download_dir | default(ansible_facts['env'].HOME + '/.ansible/tmp/downloads') }}"
 maven_download_timeout: 10
 maven_fact_group_name: maven
 maven_install_dir: /opt/maven
@@ -102,13 +104,14 @@ Here is an overview of related roles:
 
 ## [Compatibility](#compatibility)
 
-This role has been tested on these [container images](https://hub.docker.com/u/robertdebock):
+This role has been tested on these [container images](https://hub.docker.com/u/buluma):
 
 |container|tags|
 |---------|----|
-|[EL](https://hub.docker.com/r/robertdebock/enterpriselinux)|all|
-|[Fedora](https://hub.docker.com/r/robertdebock/fedora)|all|
-|[Ubuntu](https://hub.docker.com/r/robertdebock/ubuntu)|all|
+|[EL](https://hub.docker.com/r/buluma/docker-molecule-images)|all|
+|[Debian](https://hub.docker.com/r/buluma/docker-molecule-images)|all|
+|[Fedora](https://hub.docker.com/r/buluma/docker-molecule-images)|all|
+|[Ubuntu](https://hub.docker.com/r/buluma/docker-molecule-images)|all|
 
 The minimum version of Ansible required is 2.12, tests have been done on:
 
@@ -126,6 +129,3 @@ If you find issues, please register them on [GitHub](https://github.com/buluma/a
 
 [buluma](https://buluma.github.io/)
 
-### Get Help
-- Report issues: https://github.com/buluma/ansible-role-maven/issues/new
-- See docs: https://docs.ansible.com/collection/gallery/ansible-role-maven
