@@ -9,19 +9,8 @@
         update_cache: true
       changed_when: false
       when: ansible_facts['pkg_mgr'] in ('apt')
-    - name: Install a jdk (apt)
-      ansible.builtin.apt:
-        name: default-jdk
-        state: present
-      become: true
-      when: ansible_facts['pkg_mgr'] in ('apt')
-    - name: Install a jdk (dnf, yum)
-      ansible.builtin.package:
-        name: java-latest-openjdk-devel
-        state: present
-      become: true
-      when: ansible_facts['pkg_mgr'] in ('dnf', 'dnf5', 'yum')
   roles:
+    - role: buluma.java
     - maven_install_dir: /opt/maven
       maven_version: 3.9.6
       role: buluma.maven
