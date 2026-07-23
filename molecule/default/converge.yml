@@ -17,7 +17,7 @@
       when: ansible_facts['pkg_mgr'] in ('apt')
     - name: Install a jdk (dnf, yum)
       ansible.builtin.package:
-        name: java-17-openjdk-devel
+        name: java-latest-openjdk-devel
         state: present
       become: true
       when: ansible_facts['pkg_mgr'] in ('dnf', 'dnf5', 'yum')
