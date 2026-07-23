@@ -7,5 +7,5 @@
   tasks:
     - name: Check mvn version
       ansible.builtin.command:
-        cmd: mvn --version
+        cmd: /usr/local/bin/mvn --version
       changed_when: false
