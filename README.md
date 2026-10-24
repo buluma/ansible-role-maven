@@ -30,7 +30,7 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
       when: ansible_facts['pkg_mgr'] in ('apt')
   roles:
     - maven_install_dir: /opt/maven
-      maven_version: 3.9.6
+      maven_version: 3.10.0
       role: buluma.maven
     - maven_fact_group_name: maven_3_3
       maven_is_default_installation: false
@@ -98,7 +98,7 @@ maven_is_default_installation: true
 maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version | regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
 maven_use_proxy: true
 maven_validate_certs: true
-maven_version: "3.9.6"
+maven_version: "3.10.0"
 ```
 
 ## [Requirements](#requirements)
