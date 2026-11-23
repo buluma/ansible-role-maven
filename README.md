@@ -22,15 +22,10 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
         update_cache: true
       changed_when: false
       when: ansible_facts['pkg_mgr'] in ('apt')
-    - name: Install jdk 8 (apt)
-      ansible.builtin.apt:
-        name: openjdk-8-jdk
-        state: present
-      become: true
-      when: ansible_facts['pkg_mgr'] in ('apt')
   roles:
+    - role: buluma.java
     - maven_install_dir: /opt/maven
-      maven_version: 3.10.1
+      maven_version: 3.9.6
       role: buluma.maven
     - maven_fact_group_name: maven_3_3
       maven_is_default_installation: false
